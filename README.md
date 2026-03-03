@@ -1,3 +1,5 @@
+/actions/managing-workflow-runs/adding-a-workflow-status-badge
+
 # job4j_social_media_api
 Первый проект со спрингом
 
