@@ -1,4 +1,4 @@
-/actions/managing-workflow-runs/adding-a-workflow-status-badge
+[![Java CI with Maven](https://github.com/Alexei-kor/job4j_social_media_api/actions/workflows/maven.yml/badge.svg)](https://github.com/Alexei-kor/job4j_social_media_api/actions/workflows/maven.yml)
 
 # job4j_social_media_api
 Первый проект со спрингом
