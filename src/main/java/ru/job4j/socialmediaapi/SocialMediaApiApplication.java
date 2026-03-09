@@ -27,8 +27,7 @@ public class SocialMediaApiApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		userRepository.deleteAll();
 		User user = new User("vasya", "abc@ya.ru", "123");
-		LocalDate localDate = LocalDate.now();
-		Post post = new Post(user, localDate, localDate, "важный первый пост", "История одного поста...");
+		Post post = new Post(user, "важный первый пост", "История одного поста...");
 		userRepository.save(user);
 		postRepository.save(post);
 		System.out.println(user.getId());

@@ -20,16 +20,19 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "owner")
     private User owner;
-    private LocalDate date;
-    private LocalDate time;
+    //private LocalDate date;
+    //private LocalDate time;
     private String head;
     private String text;
 
-    public Post(User owner, LocalDate date, LocalDate time, String head, String text) {
+    public Post(User owner, String head, String text) {
         this.owner = owner;
-        this.date = date;
-        this.time = time;
+        //this.date = date;
+        //this.time = time;
         this.head = head;
         this.text = text;
     }

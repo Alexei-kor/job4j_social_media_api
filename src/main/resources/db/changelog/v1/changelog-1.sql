@@ -14,8 +14,6 @@ create table posts
 (
     id SERIAL PRIMARY KEY,
     owner INT REFERENCES users(id),
-    date date,
-    time time,
     head VARCHAR(100),
     text text
 );
