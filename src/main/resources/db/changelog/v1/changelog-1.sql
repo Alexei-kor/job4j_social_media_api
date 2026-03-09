@@ -64,3 +64,4 @@ create table messages
     to_id INT REFERENCES users(id),
     text text
 );
+
