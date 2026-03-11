@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -24,15 +27,20 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "owner")
     private User owner;
-    //private LocalDate date;
-    //private LocalDate time;
+    private LocalDateTime period;
     private String head;
     private String text;
 
-    public Post(User owner, String head, String text) {
+    @ManyToMany
+    @JoinTable(name = "images_post",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id")
+    )
+    private Set<Image> images = new HashSet<>();
+
+    public Post(User owner, LocalDateTime period, String head, String text) {
         this.owner = owner;
-        //this.date = date;
-        //this.time = time;
+        this.period = period;
         this.head = head;
         this.text = text;
     }

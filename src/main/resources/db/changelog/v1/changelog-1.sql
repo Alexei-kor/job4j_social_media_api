@@ -15,6 +15,7 @@ create table posts
     id SERIAL PRIMARY KEY,
     owner INT REFERENCES users(id),
     head VARCHAR(100),
+    period TIMESTAMP,
     text text
 );
 
@@ -23,10 +24,10 @@ create table images
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     ext VARCHAR(10),
-    image VARCHAR(1)
+    image VARCHAR(100)
 );
 
-create table imagesPost
+create table images_post
 (
     id SERIAL PRIMARY KEY,
     post_id INT REFERENCES posts(id),
@@ -48,13 +49,6 @@ create table subscribers
     subscriber_id INT REFERENCES users(id)
 );
 
-create table friends
-(
-    id SERIAL PRIMARY KEY,
-    owner_id INT REFERENCES users(id),
-    friend_id INT REFERENCES users(id)
-);
-
 create table messages
 (
     id SERIAL PRIMARY KEY,
@@ -62,4 +56,5 @@ create table messages
     to_id INT REFERENCES users(id),
     text text
 );
+
 
