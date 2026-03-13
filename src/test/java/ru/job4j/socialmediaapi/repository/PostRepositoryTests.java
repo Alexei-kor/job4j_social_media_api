@@ -27,8 +27,8 @@ class PostRepositoryTests {
 
 	@BeforeEach
 	public void setUp() {
-		userRepository.deleteAll();
 		postRepository.deleteAll();
+		userRepository.deleteAll();
 	}
 
 	@Test
@@ -50,8 +50,7 @@ class PostRepositoryTests {
 		userRepository.save(user);
 		postRepository.save(post1);
 		postRepository.save(post2);
-		var a = postRepository.findById(1l);
-		assertThat(a.isPresent());
-		//assertThat(a.get().getHead()).isEqualTo("Второй пост");
+		var a = postRepository.findAll();
+		assertThat(a).hasSize(2);
 	}
 }
