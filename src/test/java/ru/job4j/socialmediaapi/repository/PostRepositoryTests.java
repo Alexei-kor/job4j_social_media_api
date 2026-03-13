@@ -32,7 +32,7 @@ class PostRepositoryTests {
 	}
 
 	@Test
-	public void whenSavePost_thenFindById() {
+	public void whenSavePostthenFindById() {
 		User user = new User("vasya", "abc@ya.ru", "123");
 		Post post1 = new Post(user, LocalDateTime.now(), "важный первый пост", "История одного поста...");
 		userRepository.save(user);
@@ -43,7 +43,7 @@ class PostRepositoryTests {
 	}
 
 	@Test
-	public void whenFindAll_thenReturnAllPersons() {
+	public void whenFindAllthenReturnAllPersons() {
 		User user = new User("vasya1", "abc@ya.ru", "123");
 		Post post1 = new Post(user, LocalDateTime.now(), "важный первый пост", "История одного поста...");
 		Post post2 = new Post(user, LocalDateTime.now(), "Второй пост", "Про погоду");
