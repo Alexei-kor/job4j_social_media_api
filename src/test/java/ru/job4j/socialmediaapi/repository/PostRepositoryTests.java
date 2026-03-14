@@ -97,7 +97,7 @@ class PostRepositoryTests {
 		postRepository.saveAll(List.of(post1, post2, post3));
 
 		Page<Post> findPosts = postRepository.findByOrderByPeriodDesc(org.springframework.data.domain.Pageable.ofSize(2));
-		assertThat(findPosts.getTotalPages()==2);
+		assertThat(findPosts.getTotalPages() == 2);
 	}
 
 }
