@@ -23,9 +23,8 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany
-    @JoinColumn(name = "owner_id")
-    private Set<User> subscribers = new HashSet<>();
+    @OneToMany(mappedBy = "owner")
+    private Set<Subscriber> subscribers = new HashSet<>();
 
     public User(String name, String email, String password) {
         this.name = name;

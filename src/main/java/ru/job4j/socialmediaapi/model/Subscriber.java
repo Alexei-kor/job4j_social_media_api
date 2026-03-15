@@ -20,7 +20,7 @@ public class Subscriber {
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     //@OneToOne

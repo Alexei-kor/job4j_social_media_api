@@ -35,18 +35,17 @@ class SubscriberRepositoryTests {
 		User user3 = new User("sasha", "abc@mail.ru", "123");
 		User user4 = new User("misha", "abc@mail.ru", "123");
 
-		Set<User> set1 = new HashSet<>(List.of(user2, user3));
-		user1.setSubscribers(set1);
-
 		Subscriber subscriber1 = new Subscriber(user1, user2.getName());
 		Subscriber subscriber2 = new Subscriber(user1, user3.getName());
+		Set<Subscriber> set1 = new HashSet<>(List.of(subscriber1, subscriber2));
+		user1.setSubscribers(set1);
 
 		Subscriber subscriber3 = new Subscriber(user2, user4.getName());
-		Set<User> set2 = new HashSet<>(List.of(user4));
+		Set<Subscriber> set2 = new HashSet<>(List.of(subscriber3));
 		user2.setSubscribers(set2);
 
 		Subscriber subscriber4 = new Subscriber(user4, user1.getName());
-		Set<User> set3 = new HashSet<>(List.of(user1));
+		Set<Subscriber> set3 = new HashSet<>(List.of(subscriber4));
 		user4.setSubscribers(set3);
 
 		userRepository.save(user1);
