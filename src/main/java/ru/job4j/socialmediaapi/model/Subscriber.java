@@ -6,9 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Table (name = "subscribers")
 public class Subscriber {
@@ -17,16 +19,17 @@ public class Subscriber {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "owner_id")
+    @ManyToOne()
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    @OneToOne
-    @JoinColumn(name = "subscriber_id")
-    private User subscriber;
+    //@OneToOne
+    //@JoinColumn(name = "subscriber_id")
+    //private User subscriber;
+    private String nameSubscriber;
 
-    public Subscriber(User owner, User subscriber) {
+    public Subscriber(User owner, String nameSubscriber) {
         this.owner = owner;
-        this.subscriber = subscriber;
+        this.nameSubscriber = nameSubscriber;
     }
 }

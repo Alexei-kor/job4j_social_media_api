@@ -1,13 +1,13 @@
 package ru.job4j.socialmediaapi.repository;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.After;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.job4j.socialmediaapi.model.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,10 +17,13 @@ class UserRepositoryTests {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private SubscriberRepository subscriberRepository;
 
-	@BeforeEach
+	@AfterEach
 	public void setUp() {
-
+		subscriberRepository.deleteAll();
+		userRepository.deleteAll();
 	}
 
 	@Test
@@ -33,7 +36,7 @@ class UserRepositoryTests {
 	}
 
 	@Test
-	public void whenSaveUserthenFindByEmail() {
+	public void whenSaveUserThenFindByEmail() {
 		User user1 = new User("vasya", "abc@ya.ru", "123");
 		User user2 = new User("petya", "cde@ya.ru", "123");
 		User user3 = new User("sasha", "abc@mail.ru", "123");
@@ -41,4 +44,19 @@ class UserRepositoryTests {
 		var foundUser = userRepository.findByEmailLike("%mail%");
 		assertThat(foundUser).hasSize(1);
 	}
+
+	@Test
+	public void whenSaveAndFindByLoginPassw() {
+		User user1 = new User("vasya", "abc@ya.ru", "123");
+		User user2 = new User("petya", "cde@ya.ru", "123");
+		User user3 = new User("sasha", "abc@mail.ru", "123");
+		userRepository.saveAll(List.of(user1, user2, user3));
+		Optional<User> found1 = userRepository.findByLoginAndPass("petya", "321");
+		assertThat(!found1.isPresent());
+
+		Optional<User> found2 = userRepository.findByLoginAndPass("petya", "123");
+		assertThat(found2.isPresent());
+		Assertions.assertEquals(true, found2.get().getName().equals("petya"));
+	}
+
 }
