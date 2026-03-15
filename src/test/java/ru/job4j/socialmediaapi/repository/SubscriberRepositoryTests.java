@@ -36,10 +36,10 @@ class SubscriberRepositoryTests {
 		User user4 = new User("misha", "abc@mail.ru", "123");
 
 		Set<User> set1 = new HashSet<>(List.of(user2, user3));
+		user1.setSubscribers(set1);
+
 		Subscriber subscriber1 = new Subscriber(user1, user2.getName());
 		Subscriber subscriber2 = new Subscriber(user1, user3.getName());
-
-		user1.setSubscribers(set1);
 
 		Subscriber subscriber3 = new Subscriber(user2, user4.getName());
 		Set<User> set2 = new HashSet<>(List.of(user4));

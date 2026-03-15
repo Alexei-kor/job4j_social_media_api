@@ -46,7 +46,7 @@ create table subscribers
 (
     id SERIAL PRIMARY KEY,
     owner_id INT REFERENCES users(id),
-    subscriber_id INT REFERENCES users(id)
+    nameSubscriber VARCHAR(255)
 );
 
 create table messages
