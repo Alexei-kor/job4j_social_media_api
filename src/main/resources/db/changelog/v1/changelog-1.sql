@@ -45,8 +45,7 @@ create table requests
 create table subscribers
 (
     id SERIAL PRIMARY KEY,
-    owner_id INT REFERENCES users(id),
-    nameSubscriber VARCHAR(255)
+    subscriber INT REFERENCES users(id)
 );
 
 create table messages

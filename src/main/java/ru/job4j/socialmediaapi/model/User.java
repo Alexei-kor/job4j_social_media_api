@@ -23,7 +23,7 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Subscriber> subscribers = new HashSet<>();
 
     public User(String name, String email, String password) {

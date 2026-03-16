@@ -35,27 +35,24 @@ class SubscriberRepositoryTests {
 		User user3 = new User("sasha", "abc@mail.ru", "123");
 		User user4 = new User("misha", "abc@mail.ru", "123");
 
-		Subscriber subscriber1 = new Subscriber(user1, user2.getName());
-		Subscriber subscriber2 = new Subscriber(user1, user3.getName());
-		Set<Subscriber> set1 = new HashSet<>(List.of(subscriber1, subscriber2));
+		Subscriber subscriber2 = new Subscriber(user2);
+		Subscriber subscriber3 = new Subscriber(user3);
+		Subscriber subscriber4 = new Subscriber(user4);
+
+		Set<Subscriber> set1 = new HashSet<>(List.of(subscriber2));
 		user1.setSubscribers(set1);
 
-		Subscriber subscriber3 = new Subscriber(user2, user4.getName());
 		Set<Subscriber> set2 = new HashSet<>(List.of(subscriber3));
 		user2.setSubscribers(set2);
 
-		Subscriber subscriber4 = new Subscriber(user4, user1.getName());
 		Set<Subscriber> set3 = new HashSet<>(List.of(subscriber4));
-		user4.setSubscribers(set3);
+		user3.setSubscribers(set3);
 
-		userRepository.save(user1);
-		userRepository.save(user2);
-		userRepository.save(user3);
-		userRepository.save(user4);
-		subscriberRepository.saveAll(List.of(subscriber1, subscriber2, subscriber3, subscriber4));
+		userRepository.saveAll(List.of(user1, user2, user3, user4));
+		subscriberRepository.saveAll(List.of(subscriber2, subscriber3, subscriber4));
 
 		var foundSub = subscriberRepository.findSubscribersByIDOwner(user1.getId());
-		assertThat(foundSub).hasSize(2);
+		assertThat(foundSub).hasSize(1);
 	}
 
 }

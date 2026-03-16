@@ -7,29 +7,51 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
 @Entity
-@NoArgsConstructor
 @Table (name = "subscribers")
 public class Subscriber {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne()
-    @JoinColumn(name = "owner_id")
-    private User owner;
+    @OneToOne
+    @JoinColumn(name = "subscriber_id")
+    private User subscriber;
 
-    //@OneToOne
-    //@JoinColumn(name = "subscriber_id")
-    //private User subscriber;
-    private String nameSubscriber;
+    public Subscriber() {
+    }
 
-    public Subscriber(User owner, String nameSubscriber) {
-        this.owner = owner;
-        this.nameSubscriber = nameSubscriber;
+    public Subscriber(User subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    public User getSubscriber() {
+        return subscriber;
+    }
+
+    public void setSubscriber(User subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Subscriber that = (Subscriber) o;
+        return Objects.equals(id, that.id) && Objects.equals(subscriber, that.subscriber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, subscriber);
     }
 }

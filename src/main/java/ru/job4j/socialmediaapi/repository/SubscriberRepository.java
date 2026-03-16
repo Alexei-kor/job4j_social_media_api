@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface SubscriberRepository extends CrudRepository<Subscriber, Long>, JpaRepository<Subscriber, Long> {
     @Query(value = """
-            SELECT subscribers.subscriber_id FROM users inner join subscribers ON users.id = subscribers.subscriber_id
-            WHERE subscribers.owner_id = :ownerId""", nativeQuery = true)
+            SELECT subscribers_id FROM users_subscribers 
+            WHERE user_id = :ownerId""", nativeQuery = true)
     List<Long> findSubscribersByIDOwner(@Param("ownerId") Long idOwner);
 }
