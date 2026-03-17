@@ -17,12 +17,9 @@ class UserRepositoryTests {
 
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private SubscriberRepository subscriberRepository;
 
 	@AfterEach
 	public void setUp() {
-		subscriberRepository.deleteAll();
 		userRepository.deleteAll();
 	}
 

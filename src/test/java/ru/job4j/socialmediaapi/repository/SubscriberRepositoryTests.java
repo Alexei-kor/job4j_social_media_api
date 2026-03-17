@@ -35,11 +35,12 @@ class SubscriberRepositoryTests {
 		User user3 = new User("sasha", "abc@mail.ru", "123");
 		User user4 = new User("misha", "abc@mail.ru", "123");
 
-		Subscriber subscriber2 = new Subscriber(user2);
-		Subscriber subscriber3 = new Subscriber(user3);
-		Subscriber subscriber4 = new Subscriber(user4);
+		Subscriber subscriber1 = new Subscriber(user1, user4);
+		Subscriber subscriber2 = new Subscriber(user1, user2);
+		Subscriber subscriber3 = new Subscriber(user2, user3);
+		Subscriber subscriber4 = new Subscriber(user3, user4);
 
-		Set<Subscriber> set1 = new HashSet<>(List.of(subscriber2));
+		Set<Subscriber> set1 = new HashSet<>(List.of(subscriber1, subscriber2));
 		user1.setSubscribers(set1);
 
 		Set<Subscriber> set2 = new HashSet<>(List.of(subscriber3));
@@ -49,10 +50,10 @@ class SubscriberRepositoryTests {
 		user3.setSubscribers(set3);
 
 		userRepository.saveAll(List.of(user1, user2, user3, user4));
-		subscriberRepository.saveAll(List.of(subscriber2, subscriber3, subscriber4));
+		subscriberRepository.saveAll(List.of(subscriber1, subscriber2, subscriber3, subscriber4));
 
 		var foundSub = subscriberRepository.findSubscribersByIDOwner(user1.getId());
-		assertThat(foundSub).hasSize(1);
+		assertThat(foundSub).hasSize(2);
 	}
 
 }

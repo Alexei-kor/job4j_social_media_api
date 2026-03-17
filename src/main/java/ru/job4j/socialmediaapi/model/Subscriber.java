@@ -15,18 +15,35 @@ import java.util.Set;
 public class Subscriber {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "owner")
+    private User owner;
+
     @OneToOne
-    @JoinColumn(name = "subscriber_id")
+    @JoinColumn(name = "subscriber")
     private User subscriber;
 
     public Subscriber() {
     }
 
-    public Subscriber(User subscriber) {
+    public Subscriber(User owner, User subscriber) {
+        this.owner = owner;
         this.subscriber = subscriber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public User getSubscriber() {
@@ -37,21 +54,17 @@ public class Subscriber {
         this.subscriber = subscriber;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Subscriber that = (Subscriber) o;
-        return Objects.equals(id, that.id) && Objects.equals(subscriber, that.subscriber);
+        return Objects.equals(owner, that.owner) && Objects.equals(subscriber, that.subscriber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subscriber);
+        return Objects.hash(owner, subscriber);
     }
 }

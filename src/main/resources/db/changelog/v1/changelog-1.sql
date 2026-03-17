@@ -45,6 +45,7 @@ create table requests
 create table subscribers
 (
     id SERIAL PRIMARY KEY,
+    owner INT REFERENCES users(id),
     subscriber INT REFERENCES users(id)
 );
 
