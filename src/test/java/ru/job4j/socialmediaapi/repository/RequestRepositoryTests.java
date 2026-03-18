@@ -1,31 +1,30 @@
 package ru.job4j.socialmediaapi.repository;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import ru.job4j.socialmediaapi.model.Request;
+import ru.job4j.socialmediaapi.model.Status;
 import ru.job4j.socialmediaapi.model.Subscriber;
 import ru.job4j.socialmediaapi.model.User;
 
-import java.util.*;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class SubscriberRepositoryTests {
+class RequestRepositoryTests {
 
 	@Autowired
-	private UserRepository userRepository;
+	private RequestRepository requestRepository;
 	@Autowired
-	private SubscriberRepository subscriberRepository;
+	private UserRepository userRepository;
 
 	@Test
 	public void whenSaveUserAddSubscribersAndFindSubscribers() {
-		subscriberRepository.deleteAll();
+		requestRepository.deleteAll();
 		userRepository.deleteAll();
 
 		User user1 = new User("vasya", "abc@ya.ru", "123");
@@ -38,26 +37,21 @@ class SubscriberRepositoryTests {
 		userRepository.save(user3);
 		userRepository.save(user4);
 
-		Subscriber subscriber1 = new Subscriber(user1, user4);
-		Subscriber subscriber2 = new Subscriber(user1, user2);
-		Subscriber subscriber3 = new Subscriber(user2, user3);
+		Request request1 = new Request(user1, user2, 1);
+		Request request2 = new Request(user1, user3, 1);
+		Request request3 = new Request(user1, user4, 2);
 
-		subscriberRepository.save(subscriber1);
-		subscriberRepository.save(subscriber2);
-		subscriberRepository.save(subscriber3);
+		requestRepository.save(request1);
+		requestRepository.save(request2);
+		requestRepository.save(request3);
 
-		List<Subscriber> set1 = List.of(subscriber1, subscriber2);
-		user1.setSubscribers(set1);
-
-		List<Subscriber> set2 = List.of(subscriber3);
-		user2.setSubscribers(set2);
+		List<Request> set1 = List.of(request1, request2, request3);
+		user1.setRequests(set1);
 
 		userRepository.save(user1);
-		userRepository.save(user2);
-		userRepository.save(user3);
 
-		var foundSub = subscriberRepository.findSubscribersByIDOwner(user1.getId());
-		assertThat(foundSub).hasSize(2);
+		var found = requestRepository.findFriendsByIDOwner(user1.getId());
+		assertThat(found).hasSize(1);
 	}
 
 }

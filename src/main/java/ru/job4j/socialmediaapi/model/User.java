@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @AllArgsConstructor
@@ -24,7 +22,10 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Subscriber> subscribers = new HashSet<>();
+    private List<Subscriber> subscribers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Request> requests = new ArrayList<>();
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -60,12 +61,20 @@ public class User {
         this.password = password;
     }
 
-    public Set<Subscriber> getSubscribers() {
+    public List<Subscriber> getSubscribers() {
         return subscribers;
     }
 
-    public void setSubscribers(Set<Subscriber> subscribers) {
+    public void setSubscribers(List<Subscriber> subscribers) {
         this.subscribers = subscribers;
+    }
+
+    public List<Request> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<Request> requests) {
+        this.requests = requests;
     }
 
     @Override

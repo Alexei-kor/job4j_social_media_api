@@ -19,7 +19,7 @@ public class Subscriber {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "owner")
+    @JoinColumn(name = "owner", unique = false)
     private User owner;
 
     @OneToOne
@@ -60,11 +60,11 @@ public class Subscriber {
             return false;
         }
         Subscriber that = (Subscriber) o;
-        return Objects.equals(owner, that.owner) && Objects.equals(subscriber, that.subscriber);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(owner, subscriber);
+        return Objects.hashCode(id);
     }
 }

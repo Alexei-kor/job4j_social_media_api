@@ -38,7 +38,7 @@ create table requests
 (
     id SERIAL PRIMARY KEY,
     from_id INT REFERENCES users(id),
-    to_id INT REFERENCES users(id),
+    friend INT REFERENCES users(id),
     status INT
 );
 

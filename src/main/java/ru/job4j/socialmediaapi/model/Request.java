@@ -17,19 +17,20 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    //private Status status;
+    private int status;
+
+    @ManyToOne
     @JoinColumn(name = "from_id")
     private User from;
 
     @OneToOne
-    @JoinColumn(name = "to_id")
+    @JoinColumn(name = "friend")
     private User friend;
 
-    private Status status;
-
-    public Request(User from, User friend, Status status) {
+    public Request(User from, User friend, int status) {
+        this.status = status;
         this.from = from;
         this.friend = friend;
-        this.status = status;
     }
 }

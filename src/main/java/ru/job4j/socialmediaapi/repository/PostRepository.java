@@ -45,4 +45,7 @@ public interface PostRepository extends CrudRepository<Post, Long>, JpaRepositor
             DELETE FROM posts WHERE id = :idPost
             """, nativeQuery = true)
     int deletePost(@Param("idPost") Long idPost);
+
+    Page<Post> findByOwnerInOrderByPeriodDesc(List<User> idS, Pageable pageable);
+
 }

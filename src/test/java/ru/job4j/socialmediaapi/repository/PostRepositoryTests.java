@@ -15,10 +15,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.socialmediaapi.model.Image;
 import ru.job4j.socialmediaapi.model.Post;
+import ru.job4j.socialmediaapi.model.Subscriber;
 import ru.job4j.socialmediaapi.model.User;
 
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +37,14 @@ class PostRepositoryTests {
 	private PostRepository postRepository;
 	@Autowired
 	private ImageRepository imageRepository;
+	@Autowired
+	private SubscriberRepository subscriberRepository;
 
 	@AfterEach
 	public void setUp() {
 		imageRepository.deleteAll();
 		postRepository.deleteAll();
+		subscriberRepository.deleteAll();
 		userRepository.deleteAll();
 	}
 
@@ -170,6 +175,60 @@ class PostRepositoryTests {
 
 		Optional<Post> foundPosts = postRepository.findById(post1.getId());
 		Assertions.assertThat(foundPosts.isPresent()).isEqualTo(false);
+	}
+
+	@Test
+	public void whenFindPostsBySubscriber() {
+
+		subscriberRepository.deleteAll();
+		userRepository.deleteAll();
+
+		User user1 = new User("vasya", "abc@ya.ru", "123");
+		User user2 = new User("petya", "cde@ya.ru", "123");
+		User user3 = new User("sasha", "abc@mail.ru", "123");
+		User user4 = new User("misha", "abc@mail.ru", "123");
+
+		userRepository.save(user1);
+		userRepository.save(user2);
+		userRepository.save(user3);
+		userRepository.save(user4);
+
+		Subscriber subscriber1 = new Subscriber(user1, user4);
+		Subscriber subscriber2 = new Subscriber(user1, user2);
+		Subscriber subscriber3 = new Subscriber(user2, user3);
+
+		subscriberRepository.save(subscriber1);
+		subscriberRepository.save(subscriber2);
+		subscriberRepository.save(subscriber3);
+
+		List<Subscriber> set1 = List.of(subscriber1, subscriber2);
+		user1.setSubscribers(set1);
+
+		List<Subscriber> set2 = List.of(subscriber3);
+		user2.setSubscribers(set2);
+
+		userRepository.save(user1);
+		userRepository.save(user2);
+		userRepository.save(user3);
+
+		List<Long> foundSub = subscriberRepository.findSubscribersByIDOwner(user1.getId());
+		List<User> listUsers = new ArrayList<>();
+		for (Long cur : foundSub) {
+			Optional<User> optional = userRepository.findById(cur);
+			if (optional.isPresent()) {
+				listUsers.add(optional.get());
+			}
+		}
+
+		Post post1 = new Post(user2, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
+		Post post2 = new Post(user4, LocalDateTime.of(2026, 2, 1, 0, 0), "второй пост", "Про зверей");
+		Post post3 = new Post(user1, LocalDateTime.of(2026, 1, 1, 0, 0), "третий пост", "Про погоду");
+
+		postRepository.saveAll(List.of(post1, post2, post3));
+
+		Page<Post> findPosts = postRepository.findByOwnerInOrderByPeriodDesc(listUsers, org.springframework.data.domain.Pageable.ofSize(2));
+		assertThat(findPosts.getTotalPages() == 1);
+
 	}
 
 }
