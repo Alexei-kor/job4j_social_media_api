@@ -3,7 +3,6 @@ package ru.job4j.socialmediaapi.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.*;
@@ -22,7 +21,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Subscriber> subscribers = new ArrayList<>();
+    private List<Subscription> subscriptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Request> requests = new ArrayList<>();
@@ -61,12 +60,12 @@ public class User {
         this.password = password;
     }
 
-    public List<Subscriber> getSubscribers() {
-        return subscribers;
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
     }
 
-    public void setSubscribers(List<Subscriber> subscribers) {
-        this.subscribers = subscribers;
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     public List<Request> getRequests() {
@@ -83,7 +82,7 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(subscribers, user.subscribers);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(subscriptions, user.subscriptions);
     }
 
     @Override

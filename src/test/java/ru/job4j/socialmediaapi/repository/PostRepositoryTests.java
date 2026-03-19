@@ -1,24 +1,18 @@
 package ru.job4j.socialmediaapi.repository;
 
 import org.assertj.core.api.Assertions;
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.socialmediaapi.model.Image;
 import ru.job4j.socialmediaapi.model.Post;
-import ru.job4j.socialmediaapi.model.Subscriber;
+import ru.job4j.socialmediaapi.model.Subscription;
 import ru.job4j.socialmediaapi.model.User;
 
-import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,13 +32,13 @@ class PostRepositoryTests {
 	@Autowired
 	private ImageRepository imageRepository;
 	@Autowired
-	private SubscriberRepository subscriberRepository;
+	private SubscriptionRepository subscriptionRepository;
 
 	@AfterEach
 	public void setUp() {
 		imageRepository.deleteAll();
 		postRepository.deleteAll();
-		subscriberRepository.deleteAll();
+		subscriptionRepository.deleteAll();
 		userRepository.deleteAll();
 	}
 
@@ -180,7 +174,7 @@ class PostRepositoryTests {
 	@Test
 	public void whenFindPostsBySubscriber() {
 
-		subscriberRepository.deleteAll();
+		subscriptionRepository.deleteAll();
 		userRepository.deleteAll();
 
 		User user1 = new User("vasya", "abc@ya.ru", "123");
@@ -193,25 +187,25 @@ class PostRepositoryTests {
 		userRepository.save(user3);
 		userRepository.save(user4);
 
-		Subscriber subscriber1 = new Subscriber(user1, user4);
-		Subscriber subscriber2 = new Subscriber(user1, user2);
-		Subscriber subscriber3 = new Subscriber(user2, user3);
+		Subscription subscription1 = new Subscription(user1, user4);
+		Subscription subscription2 = new Subscription(user1, user2);
+		Subscription subscription3 = new Subscription(user2, user3);
 
-		subscriberRepository.save(subscriber1);
-		subscriberRepository.save(subscriber2);
-		subscriberRepository.save(subscriber3);
+		subscriptionRepository.save(subscription1);
+		subscriptionRepository.save(subscription2);
+		subscriptionRepository.save(subscription3);
 
-		List<Subscriber> set1 = List.of(subscriber1, subscriber2);
-		user1.setSubscribers(set1);
+		List<Subscription> set1 = List.of(subscription1, subscription2);
+		user1.setSubscriptions(set1);
 
-		List<Subscriber> set2 = List.of(subscriber3);
-		user2.setSubscribers(set2);
+		List<Subscription> set2 = List.of(subscription3);
+		user2.setSubscriptions(set2);
 
 		userRepository.save(user1);
 		userRepository.save(user2);
 		userRepository.save(user3);
 
-		List<Long> foundSub = subscriberRepository.findSubscribersByIDOwner(user1.getId());
+		List<Long> foundSub = subscriptionRepository.findSubscribersByIDOwner(user1.getId());
 		List<User> listUsers = new ArrayList<>();
 		for (Long cur : foundSub) {
 			Optional<User> optional = userRepository.findById(cur);

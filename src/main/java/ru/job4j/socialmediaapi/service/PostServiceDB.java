@@ -16,6 +16,5 @@ public class PostServiceDB implements PostService {
     @Override
     public void create(List<Post> posts) {
         posts.forEach(postRepository::save);
-
     }
 }

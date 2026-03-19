@@ -42,7 +42,7 @@ create table requests
     status INT
 );
 
-create table subscribers
+create table subscriptions
 (
     id SERIAL PRIMARY KEY,
     owner INT REFERENCES users(id),

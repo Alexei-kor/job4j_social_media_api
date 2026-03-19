@@ -2,17 +2,12 @@ package ru.job4j.socialmediaapi.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
-@Table (name = "subscribers")
-public class Subscriber {
+@Table (name = "subscriptions")
+public class Subscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +21,10 @@ public class Subscriber {
     @JoinColumn(name = "subscriber")
     private User subscriber;
 
-    public Subscriber() {
+    public Subscription() {
     }
 
-    public Subscriber(User owner, User subscriber) {
+    public Subscription(User owner, User subscriber) {
         this.owner = owner;
         this.subscriber = subscriber;
     }
@@ -59,7 +54,7 @@ public class Subscriber {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Subscriber that = (Subscriber) o;
+        Subscription that = (Subscription) o;
         return Objects.equals(id, that.id);
     }
 

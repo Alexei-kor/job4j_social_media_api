@@ -5,8 +5,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.job4j.socialmediaapi.model.Request;
-import ru.job4j.socialmediaapi.model.Status;
-import ru.job4j.socialmediaapi.model.Subscriber;
 import ru.job4j.socialmediaapi.model.User;
 
 import java.util.List;
