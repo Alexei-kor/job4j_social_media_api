@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import ru.job4j.socialmediaapi.model.Image;
 import ru.job4j.socialmediaapi.model.Request;
 import ru.job4j.socialmediaapi.model.Status;
+import ru.job4j.socialmediaapi.model.User;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public interface RequestRepository extends CrudRepository<Request, Long>, JpaRep
 
     @Modifying(clearAutomatically = true)
     @Query (value = """
-            UPDATE Request request SET request.status = :newStatus WHERE request.id = :id""")
-    int updateStatusRequest(@Param("id") Long id, @Param("newStatus") Status status);
+            UPDATE Request request SET request.status = :newStatus WHERE request.from = :from AND request.friend = :friend""")
+    int updateStatusRequest(@Param("from") User from, @Param("friend") User friend, @Param("newStatus") Status status);
+
 }

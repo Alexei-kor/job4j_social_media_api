@@ -36,13 +36,7 @@ class PostServiceDBTest {
     ImageRepository imageRepository;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
     PostService postService;
-
-    @Autowired
-    ImageService imageService;
 
     @AfterEach
     public void setUp() {
@@ -62,10 +56,6 @@ class PostServiceDBTest {
         Post post = new Post(user, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
         post.setImages(Set.of(image, image2, image3));
 
-        userService.create(user);
-        imageService.create(image);
-        imageService.create(image2);
-        imageService.create(image3);
         postService.create(post);
 
         var found = postRepository.findAll();
@@ -82,9 +72,6 @@ class PostServiceDBTest {
         Post post = new Post(user, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
         post.setImages(Set.of(image, image2));
 
-        userService.create(user);
-        imageService.create(image);
-        imageService.create(image2);
         postService.create(post);
 
         var found = postRepository.findAll();
@@ -103,7 +90,6 @@ class PostServiceDBTest {
 
         Post post = new Post(user, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
 
-        userService.create(user);
         postService.create(post);
 
         var found = postRepository.findAll();
@@ -114,5 +100,4 @@ class PostServiceDBTest {
         Optional<Post> found1 = postRepository.findById(post.getId());
         assertThat(found1.isPresent()).isFalse();
     }
-
 }
