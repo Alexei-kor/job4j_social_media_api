@@ -67,4 +67,24 @@ class SubscriptionServiceDBTest {
         List<Long> foundSubsc = subscriptionRepository.findSubscribersByIDOwner(user2.getId());
         assertThat(foundSubsc.contains(user1.getId())).isEqualTo(true);
     }
+
+    @Test
+    public void whenRejectFriendRequest() {
+        User user1 = new User("user1", "123@ya.ru", "123");
+        User user2 = new User("user2", "456@ya.ru", "123");
+        subscriptionServiceDB.sendFriendRequest(user1, user2);
+
+        subscriptionServiceDB.updateStatusFriendRequest(user1, user2, Status.APPROVE);
+
+        subscriptionServiceDB.updateStatusFriendRequest(user1, user2, Status.REJECT);
+
+        List<Long> foundFriends1 = requestRepository.findFriendsByIDOwner(user1.getId(), Status.REJECT);
+        assertThat(foundFriends1.contains(user2.getId())).isEqualTo(true);
+
+        List<Long> foundFriends2 = requestRepository.findFriendsByIDOwner(user2.getId(), Status.REJECT);
+        assertThat(foundFriends2.contains(user1.getId())).isEqualTo(true);
+
+        List<Long> foundSubsc = subscriptionRepository.findSubscribersByIDOwner(user2.getId());
+        assertThat(foundSubsc.contains(user1.getId())).isEqualTo(false);
+    }
 }

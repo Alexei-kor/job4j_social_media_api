@@ -35,6 +35,9 @@ public class SubscriptionServiceDB implements SubscriptionService {
             Subscription subscription = new Subscription(to, from);
             requestRepository.save(request);
             subscriptionRepository.save(subscription);
+        } else if (status.equals(Status.REJECT)) {
+            requestRepository.updateStatusRequest(to, from, status);
+            subscriptionRepository.deleteSubscription(to.getId(), from.getId());
         }
         return count;
     }
