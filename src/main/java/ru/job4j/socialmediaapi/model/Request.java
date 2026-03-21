@@ -23,7 +23,7 @@ public class Request {
     @JoinColumn(name = "from_id")
     private User from;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "friend")
     private User friend;
 

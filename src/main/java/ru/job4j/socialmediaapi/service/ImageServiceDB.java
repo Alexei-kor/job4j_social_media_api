@@ -16,8 +16,7 @@ public class ImageServiceDB implements ImageService {
     private final ImageRepository imageRepository;
 
     @Override
-    public void create(List<Image> images) {
-        images.forEach(imageRepository::save);
-
+    public void create(Image image) {
+        imageRepository.save(image);
     }
 }

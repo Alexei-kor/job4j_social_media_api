@@ -8,6 +8,12 @@ import java.util.List;
 public interface PostService {
 
     @Transactional
-    void create(List<Post> posts);
+    void create(Post post);
+
+    @Transactional
+    int update(Post post);
+
+    @Transactional
+    int delete(Post post);
 
 }

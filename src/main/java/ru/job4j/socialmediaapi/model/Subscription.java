@@ -17,7 +17,7 @@ public class Subscription {
     @JoinColumn(name = "owner", unique = false)
     private User owner;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "subscriber")
     private User subscriber;
 

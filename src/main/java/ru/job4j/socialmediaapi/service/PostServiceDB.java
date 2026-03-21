@@ -14,7 +14,17 @@ public class PostServiceDB implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public void create(List<Post> posts) {
-        posts.forEach(postRepository::save);
+    public void create(Post post) {
+        postRepository.save(post);
+    }
+
+    @Override
+    public int update(Post post) {
+        return postRepository.updateHeadAndTextPost(post.getId(), post.getHead(), post.getText());
+    }
+
+    @Override
+    public int delete(Post post) {
+        return postRepository.deletePost(post.getId());
     }
 }

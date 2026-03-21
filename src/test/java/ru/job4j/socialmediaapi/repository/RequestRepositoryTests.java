@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.job4j.socialmediaapi.model.Request;
 import ru.job4j.socialmediaapi.model.Status;
+import ru.job4j.socialmediaapi.model.Subscription;
 import ru.job4j.socialmediaapi.model.User;
 
 import java.util.List;
@@ -41,8 +42,9 @@ class RequestRepositoryTests {
 		Request request1 = new Request(user1, user2, Status.SEND);
 		Request request2 = new Request(user1, user3, Status.SEND);
 		Request request3 = new Request(user1, user4, Status.APPROVE);
+		Request request4 = new Request(user2, user4, Status.SEND);
 
-		requestRepository.saveAll(List.of(request1, request2, request3));
+		requestRepository.saveAll(List.of(request1, request2, request3, request4));
 
 		var found = requestRepository.findFriendsByIDOwner(user1.getId(), Status.APPROVE);
 		assertThat(found).hasSize(1);

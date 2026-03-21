@@ -9,6 +9,6 @@ import java.util.List;
 public interface UserService {
 
     @Transactional
-    void create(List<User> users);
+    void create(User user);
 
 }

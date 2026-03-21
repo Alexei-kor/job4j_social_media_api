@@ -2,13 +2,11 @@ package ru.job4j.socialmediaapi.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.socialmediaapi.model.Image;
-import ru.job4j.socialmediaapi.model.Post;
+import ru.job4j.socialmediaapi.model.Subscription;
 
-import java.util.List;
-
-public interface ImageService {
+public interface SubscriptionService {
 
     @Transactional
-    void create(Image image);
+    void create(Subscription subscription);
 
 }

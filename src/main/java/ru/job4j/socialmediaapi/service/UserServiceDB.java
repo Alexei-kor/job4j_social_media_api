@@ -16,8 +16,7 @@ public class UserServiceDB implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void create(List<User> users) {
-        users.forEach(userRepository::save);
-
+    public void create(User user) {
+        userRepository.save(user);
     }
 }
