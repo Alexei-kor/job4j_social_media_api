@@ -182,28 +182,13 @@ class PostRepositoryTests {
 		User user3 = new User("sasha", "abc@mail.ru", "123");
 		User user4 = new User("misha", "abc@mail.ru", "123");
 
-		userRepository.save(user1);
-		userRepository.save(user2);
-		userRepository.save(user3);
-		userRepository.save(user4);
+		userRepository.saveAll(List.of(user1, user2, user3, user4));
 
 		Subscription subscription1 = new Subscription(user1, user4);
 		Subscription subscription2 = new Subscription(user1, user2);
 		Subscription subscription3 = new Subscription(user2, user3);
 
-		subscriptionRepository.save(subscription1);
-		subscriptionRepository.save(subscription2);
-		subscriptionRepository.save(subscription3);
-
-		List<Subscription> set1 = List.of(subscription1, subscription2);
-		user1.setSubscriptions(set1);
-
-		List<Subscription> set2 = List.of(subscription3);
-		user2.setSubscriptions(set2);
-
-		userRepository.save(user1);
-		userRepository.save(user2);
-		userRepository.save(user3);
+		subscriptionRepository.saveAll(List.of(subscription1, subscription2, subscription3));
 
 		List<Long> foundSub = subscriptionRepository.findSubscribersByIDOwner(user1.getId());
 		List<User> listUsers = new ArrayList<>();

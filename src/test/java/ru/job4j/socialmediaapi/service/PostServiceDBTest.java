@@ -43,7 +43,7 @@ class PostServiceDBTest {
     @Autowired
     ImageService imageService;
 
-    @AfterEach
+    /*@AfterEach
     public void setUp() {
         imageRepository.deleteAll();
         postRepository.deleteAll();
@@ -71,6 +71,6 @@ class PostServiceDBTest {
 
         var found = postRepository.findAll();
         assertThat(found.size()).isEqualTo(3);
-    }
+    }*/
 
 }

@@ -17,8 +17,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //private Status status;
-    private int status;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "from_id")
@@ -28,7 +27,7 @@ public class Request {
     @JoinColumn(name = "friend")
     private User friend;
 
-    public Request(User from, User friend, int status) {
+    public Request(User from, User friend, Status status) {
         this.status = status;
         this.from = from;
         this.friend = friend;

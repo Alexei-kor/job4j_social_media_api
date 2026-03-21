@@ -1,5 +1,6 @@
 package ru.job4j.socialmediaapi.repository;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,14 @@ class SubscriptionRepositoryTests {
 	@Autowired
 	private SubscriptionRepository subscriptionRepository;
 
-	@Test
-	public void whenAddSubscriptionAndFindByOwner() {
+	@AfterEach
+	public void setUp() {
 		subscriptionRepository.deleteAll();
 		userRepository.deleteAll();
+	}
+
+	@Test
+	public void whenAddSubscriptionAndFindByOwner() {
 
 		User user1 = new User("vasya", "abc@ya.ru", "123");
 		User user2 = new User("petya", "cde@ya.ru", "123");
@@ -33,12 +38,6 @@ class SubscriptionRepositoryTests {
 		Subscription subscription1 = new Subscription(user3, user4);
 		Subscription subscription2 = new Subscription(user3, user2);
 		Subscription subscription3 = new Subscription(user1, user3);
-
-		List<Subscription> set1 = List.of(subscription1, subscription2);
-		user3.setSubscriptions(set1);
-
-		List<Subscription> set2 = List.of(subscription3);
-		user1.setSubscriptions(set2);
 
 		userRepository.saveAll(List.of(user1, user2, user3, user4));
 		subscriptionRepository.saveAll(List.of(subscription1, subscription2, subscription3));
