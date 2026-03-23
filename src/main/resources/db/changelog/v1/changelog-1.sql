@@ -24,14 +24,8 @@ create table images
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     ext VARCHAR(10),
-    image VARCHAR(100)
-);
-
-create table images_post
-(
-    id SERIAL PRIMARY KEY,
-    post_id INT REFERENCES posts(id),
-    image_id INT REFERENCES images(id)
+    image VARCHAR(100),
+    post_id INT REFERENCES posts(id)
 );
 
 create table requests

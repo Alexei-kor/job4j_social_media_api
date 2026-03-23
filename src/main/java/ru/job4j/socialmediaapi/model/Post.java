@@ -31,11 +31,8 @@ public class Post {
     private String head;
     private String text;
 
-    @ManyToMany
-    @JoinTable(name = "images_post",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "post_id")
     private Set<Image> images = new HashSet<>();
 
     public Post(User owner, LocalDateTime period, String head, String text) {

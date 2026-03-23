@@ -144,7 +144,7 @@ class PostRepositoryTests {
 
 		post1.setImages(setImages);
 
-		imageRepository.saveAll(List.of(image, image2, image3));
+		//imageRepository.saveAll(List.of(image, image2, image3));
 		userRepository.saveAll(List.of(userVasya));
 		postRepository.saveAll(List.of(post1));
 

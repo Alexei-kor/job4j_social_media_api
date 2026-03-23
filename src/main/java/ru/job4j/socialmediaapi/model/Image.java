@@ -23,13 +23,6 @@ public class Image {
     private String ext;
     private String image;
 
-    @ManyToMany
-    @JoinTable(name = "images_post",
-            joinColumns = @JoinColumn(name = "image_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id")
-    )
-    private Set<Post> posts = new HashSet<>();
-
     public Image(String name, String ext, String image) {
         this.name = name;
         this.ext = ext;

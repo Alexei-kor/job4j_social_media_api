@@ -31,12 +31,12 @@ public interface PostRepository extends CrudRepository<Post, Long>, JpaRepositor
 
     @Modifying(clearAutomatically = true)
     @Query (value = """
-            DELETE FROM images_post WHERE post_id = :idPost AND image_id = :idImage
+            DELETE FROM images WHERE post_id = :idPost AND id = :idImage
             """, nativeQuery = true)
     int deleteImagePost(@Param("idPost") Long idPost, @Param("idImage") Long idImage);
 
     @Query (value = """
-            SELECT image_id FROM images_post WHERE post_id = :idPost
+            SELECT id FROM images WHERE post_id = :idPost
             """, nativeQuery = true)
     List<Long> findImageByIDPost(@Param("idPost") Long idPost);
 

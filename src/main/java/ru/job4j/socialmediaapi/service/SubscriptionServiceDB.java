@@ -15,12 +15,6 @@ public class SubscriptionServiceDB implements SubscriptionService {
 
     @Override
     public void sendFriendRequest(User from, User to) {
-        if (from.getId() == null) {
-            userRepository.save(from);
-        }
-        if (to.getId() == null) {
-            userRepository.save(to);
-        }
         Request request = new Request(from, to, Status.SEND);
         Subscription subscription = new Subscription(from, to);
         requestRepository.save(request);

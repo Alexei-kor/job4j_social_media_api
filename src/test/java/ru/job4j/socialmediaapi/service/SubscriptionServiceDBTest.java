@@ -29,6 +29,9 @@ class SubscriptionServiceDBTest {
     SubscriptionRepository subscriptionRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     RequestRepository requestRepository;
 
     @Autowired
@@ -44,6 +47,8 @@ class SubscriptionServiceDBTest {
     public void whenAddFriendRequest() {
         User user1 = new User("user1", "123@ya.ru", "123");
         User user2 = new User("user2", "456@ya.ru", "123");
+        userRepository.saveAll(List.of(user1, user2));
+
         subscriptionServiceDB.sendFriendRequest(user1, user2);
 
         var foundFriends = requestRepository.findFriendsByIDOwner(user1.getId(), Status.SEND);
@@ -57,6 +62,8 @@ class SubscriptionServiceDBTest {
     public void whenApproveFriendRequest() {
         User user1 = new User("user1", "123@ya.ru", "123");
         User user2 = new User("user2", "456@ya.ru", "123");
+        userRepository.saveAll(List.of(user1, user2));
+
         subscriptionServiceDB.sendFriendRequest(user1, user2);
 
         subscriptionServiceDB.updateStatusFriendRequest(user1, user2, Status.APPROVE);
@@ -72,6 +79,8 @@ class SubscriptionServiceDBTest {
     public void whenRejectFriendRequest() {
         User user1 = new User("user1", "123@ya.ru", "123");
         User user2 = new User("user2", "456@ya.ru", "123");
+        userRepository.saveAll(List.of(user1, user2));
+
         subscriptionServiceDB.sendFriendRequest(user1, user2);
 
         subscriptionServiceDB.updateStatusFriendRequest(user1, user2, Status.APPROVE);

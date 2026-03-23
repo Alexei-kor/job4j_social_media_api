@@ -48,6 +48,7 @@ class PostServiceDBTest {
     @Test
     public void whenCreateUserImagesPost() {
         User user = new User("vasya", "vasya@ya.ru", "123");
+        userRepository.save(user);
 
         Image image = new Image("Веселый жираф", "jpg", "тут картинка веселого жирафа");
         Image image2 = new Image("Солнце", "jpg", "тут картинка солнца");
@@ -65,6 +66,7 @@ class PostServiceDBTest {
     @Test
     public void whenCreateUpdatePost() {
         User user = new User("vasya", "vasya@ya.ru", "123");
+        userRepository.save(user);
 
         Image image = new Image("Веселый жираф", "jpg", "тут картинка веселого жирафа");
         Image image2 = new Image("Солнце", "jpg", "тут картинка солнца");
@@ -87,6 +89,7 @@ class PostServiceDBTest {
     @Test
     public void whenCreateDeletePost() {
         User user = new User("vasya", "vasya@ya.ru", "123");
+        userRepository.save(user);
 
         Post post = new Post(user, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
 

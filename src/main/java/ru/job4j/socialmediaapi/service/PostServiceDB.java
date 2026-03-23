@@ -22,14 +22,6 @@ public class PostServiceDB implements PostService {
 
     @Override
     public void create(Post post) {
-        if (post.getOwner().getId() == null) {
-            userRepository.save(post.getOwner());
-        }
-        for (Image image : post.getImages()) {
-            if (image.getId() == null) {
-                imageRepository.save(image);
-            }
-        }
         postRepository.save(post);
     }
 
