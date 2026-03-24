@@ -57,7 +57,7 @@ class PostServiceDBTest {
         Post post = new Post(user, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
         post.setImages(Set.of(image, image2, image3));
 
-        postService.create(post);
+        postService.create(user.getId(), post);
 
         var found = postRepository.findAll();
         assertThat(found.size()).isEqualTo(1);
@@ -74,7 +74,7 @@ class PostServiceDBTest {
         Post post = new Post(user, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
         post.setImages(Set.of(image, image2));
 
-        postService.create(post);
+        postService.create(user.getId(), post);
 
         var found = postRepository.findAll();
         assertThat(found.size()).isEqualTo(1);
@@ -93,12 +93,12 @@ class PostServiceDBTest {
 
         Post post = new Post(user, LocalDateTime.of(2026, 3, 1, 0, 0), "первый пост", "Про авто");
 
-        postService.create(post);
+        postService.create(user.getId(), post);
 
         var found = postRepository.findAll();
         assertThat(found.size()).isEqualTo(1);
 
-        postService.delete(post);
+        postService.delete(post.getId());
 
         Optional<Post> found1 = postRepository.findById(post.getId());
         assertThat(found1.isPresent()).isFalse();

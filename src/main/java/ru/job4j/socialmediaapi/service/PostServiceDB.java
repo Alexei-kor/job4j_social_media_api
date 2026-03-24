@@ -21,17 +21,22 @@ public class PostServiceDB implements PostService {
     private final ImageRepository imageRepository;
 
     @Override
-    public void create(Post post) {
+    public void create(Long ownerId, Post post) {
+        post.setOwner(userRepository.findById(ownerId).get());
         postRepository.save(post);
     }
 
     @Override
-    public int update(Post post) {
-        return postRepository.updateHeadAndTextPost(post.getId(), post.getHead(), post.getText());
+    public boolean update(Post post) {
+        return postRepository.updateHeadAndTextPost(post.getId(), post.getHead(), post.getText()) > 0L;
     }
 
     @Override
-    public int delete(Post post) {
-        return postRepository.deletePost(post.getId());
+    public boolean delete(Long postID) {
+        return postRepository.deletePost(postID) > 0L;
+    }
+
+    public Optional<Post> get(Long id) {
+        return postRepository.findById(id);
     }
 }

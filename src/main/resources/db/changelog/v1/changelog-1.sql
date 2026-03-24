@@ -2,7 +2,7 @@
 
 --changeset UserN:1
 --comment first
-create table users
+create table if not exists users
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
@@ -10,7 +10,7 @@ create table users
     password VARCHAR(30)
 );
 
-create table posts
+create table if not exists posts
 (
     id SERIAL PRIMARY KEY,
     owner INT REFERENCES users(id),
@@ -19,7 +19,7 @@ create table posts
     text text
 );
 
-create table images
+create table if not exists images
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
@@ -28,7 +28,7 @@ create table images
     post_id INT REFERENCES posts(id)
 );
 
-create table requests
+create table if not exists requests
 (
     id SERIAL PRIMARY KEY,
     from_id INT REFERENCES users(id),
@@ -36,14 +36,14 @@ create table requests
     status VARCHAR(10)
 );
 
-create table subscriptions
+create table if not exists subscriptions
 (
     id SERIAL PRIMARY KEY,
     owner INT REFERENCES users(id),
     subscriber INT REFERENCES users(id)
 );
 
-create table messages
+create table if not exists messages
 (
     id SERIAL PRIMARY KEY,
     from_id INT REFERENCES users(id),
