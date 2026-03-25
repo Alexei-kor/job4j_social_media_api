@@ -1,6 +1,7 @@
 package ru.job4j.socialmediaapi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "owner")
     private User owner;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime period;
     private String head;
     private String text;
