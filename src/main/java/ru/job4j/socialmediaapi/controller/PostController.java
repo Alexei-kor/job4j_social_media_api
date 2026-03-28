@@ -9,10 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.job4j.socialmediaapi.dto.PostdDTO;
 import ru.job4j.socialmediaapi.model.Post;
-import ru.job4j.socialmediaapi.model.User;
 import ru.job4j.socialmediaapi.service.PostServiceDB;
-import ru.job4j.socialmediaapi.service.UserServiceDB;
+
+import java.util.List;
 
 @Validated
 @Slf4j
@@ -23,7 +24,7 @@ public class PostController {
 
     private PostServiceDB postServiceDB;
 
-    @GetMapping("/{postId}")
+    /*@GetMapping("/{postId}")
     public ResponseEntity<Post> get(@PathVariable("postId")
                                     @NotNull
                                     @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -31,7 +32,7 @@ public class PostController {
         return postServiceDB.get(postId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
+    }*/
 
     @PostMapping("/{ownerId}")
     public ResponseEntity<Post> save(@PathVariable("ownerId")
@@ -64,5 +65,13 @@ public class PostController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PostdDTO>> getPostsByUsersIDs(@RequestParam("listIDs")
+                                         List<Long> listIDs) {
+        List<PostdDTO> list = postServiceDB.findByOwnerInOrderByPeriodDesc(listIDs);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(list);
     }
 }
