@@ -47,10 +47,14 @@ public class PostServiceDB implements PostService {
 
     public List<PostdDTO> findByOwnerInOrderByPeriodDesc(List<Long> listIDs) {
         List<PostdDTO> rez = new ArrayList<>();
-        List<User> foundUsers = userRepository.findAllById(listIDs);
-        for (User user : foundUsers) {
-            Page<Post> findPosts = postRepository.findByOwnerInOrderByPeriodDesc(List.of(user), org.springframework.data.domain.Pageable.ofSize(50));
-            rez.add(postMapper.getModelFromEntity(user, findPosts.get().toList()));
+        List<Post> found = postRepository.findByListOwnerIDsOrderByPeriodDesc(listIDs);
+        List<User> listUser = found.stream()
+                .map(post -> post.getOwner())
+                .distinct()
+                .toList();
+        for (User user : listUser) {
+            List<Post> tmp = found.stream().filter(post -> post.getOwner().equals(user)).toList();
+            rez.add(postMapper.getModelFromEntity(user, tmp));
         }
         return rez;
     }

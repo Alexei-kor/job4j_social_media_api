@@ -48,4 +48,8 @@ public interface PostRepository extends CrudRepository<Post, Long>, JpaRepositor
 
     Page<Post> findByOwnerInOrderByPeriodDesc(List<User> idS, Pageable pageable);
 
+    @Query (value = """
+            SELECT post FROM Post post WHERE post.owner.id in :listID ORDER BY post.owner.id, post.period DESC""")
+    List<Post> findByListOwnerIDsOrderByPeriodDesc(@Param("listID") List<Long> listID);
+
 }
