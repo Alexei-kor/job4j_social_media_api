@@ -2,6 +2,7 @@ package ru.job4j.socialmediaapi.controller;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class PostController {
 
     private PostServiceDB postServiceDB;
 
-    /*@GetMapping("/{postId}")
+    @GetMapping("/{postId}")
     public ResponseEntity<Post> get(@PathVariable("postId")
                                     @NotNull
                                     @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -32,7 +33,7 @@ public class PostController {
         return postServiceDB.get(postId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }*/
+    }
 
     @PostMapping("/{ownerId}")
     public ResponseEntity<Post> save(@PathVariable("ownerId")
@@ -69,7 +70,9 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostdDTO>> getPostsByUsersIDs(@RequestParam("listIDs")
-                                         List<Long> listIDs) {
+                                                                 @NotNull
+                                                                 @Size(min = 1, message = "Должен быть указан хотя бы один user ID")
+                                                                 List<Long> listIDs) {
         List<PostdDTO> list = postServiceDB.findByOwnerInOrderByPeriodDesc(listIDs);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(list);

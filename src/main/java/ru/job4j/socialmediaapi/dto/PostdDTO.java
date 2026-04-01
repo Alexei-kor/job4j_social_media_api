@@ -1,5 +1,7 @@
 package ru.job4j.socialmediaapi.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import ru.job4j.socialmediaapi.model.Post;
 
