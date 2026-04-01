@@ -16,8 +16,8 @@ import java.util.Set;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Table (name = "posts")
 public class Post {
 
@@ -29,13 +29,17 @@ public class Post {
     @JoinColumn(name = "owner")
     private User owner;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime period;
+    private final LocalDateTime period;
     private String head;
     private String text;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "post_id")
     private Set<Image> images = new HashSet<>();
+
+    public Post() {
+        this.period = LocalDateTime.now();
+    }
 
     public Post(User owner, LocalDateTime period, String head, String text) {
         this.owner = owner;
