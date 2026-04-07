@@ -12,3 +12,10 @@ spring:
     user:
         name: admin
         password: secret123
+socialmediaapi:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: https://mydomen.com
+springdoc:
+  swagger-ui:
+    tryItOutEnabled: true

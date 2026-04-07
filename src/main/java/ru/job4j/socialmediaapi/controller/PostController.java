@@ -1,5 +1,6 @@
 package ru.job4j.socialmediaapi.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/post")
+@Tag(name = "PostController", description = "PostController management APIs")
 public class PostController {
 
     private PostServiceDB postServiceDB;

@@ -1,6 +1,7 @@
 package ru.job4j.socialmediaapi.model;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,15 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table (name = "users")
+@Schema(description = "User Model Information")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Schema(description = "UserName title", example = "Mediator")
     private String name;
+    @Schema(description = "Email users", example = "yyy@ya.ru")
     private String email;
     private String password;
 
