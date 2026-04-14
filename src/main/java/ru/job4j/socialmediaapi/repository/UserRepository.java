@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Long>, JpaRepository<User, Long>, ListCrudRepository<User, Long> {
     List<User> findByEmailLike(String domen);
 
+    Optional<User> findByEmail(String email);
+
     @Query ("""
             select user from User as user where user.name = :login and user.password = :pass
             """)
@@ -30,4 +32,5 @@ public interface UserRepository extends CrudRepository<User, Long>, JpaRepositor
     @Query("delete from User user where user.id=:Id")
     int delete(@Param("Id") Long id);
 
+    Optional<User> findByName(String name);
 }

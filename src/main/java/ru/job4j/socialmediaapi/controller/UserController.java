@@ -6,17 +6,35 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.job4j.socialmediaapi.dto.*;
+import ru.job4j.socialmediaapi.jwt.JwtUtils;
 import ru.job4j.socialmediaapi.model.User;
 import ru.job4j.socialmediaapi.service.UserServiceDB;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.job4j.socialmediaapi.userdetails.UserDetailsImpl;
+
+import java.util.List;
 
 @Tag(name = "UserController", description = "UserController management APIs")
 @Validated
@@ -27,6 +45,12 @@ import ru.job4j.socialmediaapi.service.UserServiceDB;
 public class UserController {
 
     private UserServiceDB userServiceDB;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Operation(
             summary = "Retrieve a User by userId",
@@ -52,7 +76,7 @@ public class UserController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }) })
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<User> save(@RequestBody User user) {
         userServiceDB.create(user);
         var uri = ServletUriComponentsBuilder
@@ -63,6 +87,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .location(uri)
                 .body(user);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<JwtResponseDTO> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getName(), loginRequestDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+        return ResponseEntity
+                .ok(new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<MessageResponseDTO> registerUser(@Valid @RequestBody SignupRequestDTO signUpRequest) {
+        RegisterDTO registerDTO = userServiceDB.signUp(signUpRequest);
+        return ResponseEntity.status(registerDTO.getStatus())
+                .body(new MessageResponseDTO(registerDTO.getMessage()));
     }
 
     @Operation(
