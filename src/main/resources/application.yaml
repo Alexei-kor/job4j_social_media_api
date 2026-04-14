@@ -8,10 +8,6 @@ spring:
     #driverClassName=org.h2.Driver
     #username=sa
     #password=
-  security:
-    user:
-        name: admin
-        password: secret123
 socialmediaapi:
   openapi:
     dev-url: http://localhost:8080
