@@ -61,7 +61,7 @@ public class UserServiceDB implements UserService {
     public RegisterDTO signUp(SignupRequestDTO signUpRequest) {
         if (Boolean.FALSE.equals(userRepository.findByName(signUpRequest.getName()).isEmpty())
                 || Boolean.TRUE.equals(userRepository.findByEmail(signUpRequest.getEmail()))) {
-            return new RegisterDTO(HttpStatus.BAD_REQUEST, "Error: Username or Email is already taken!" );
+            return new RegisterDTO(HttpStatus.BAD_REQUEST, "Error: Username or Email is already taken!");
         }
 
         /* Create new person's account */
@@ -85,6 +85,6 @@ public class UserServiceDB implements UserService {
         }
         user.setRoles(roles);
         userRepository.save(user);
-        return new RegisterDTO(HttpStatus.OK, "Person registered successfully!" );
+        return new RegisterDTO(HttpStatus.OK, "Person registered successfully!");
     }
 }
