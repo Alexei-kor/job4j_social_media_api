@@ -26,13 +26,18 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class UserServiceDB implements UserService {
 
     private PasswordEncoder encoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+    public UserServiceDB(PasswordEncoder encoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.encoder = encoder;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public void create(User user) {

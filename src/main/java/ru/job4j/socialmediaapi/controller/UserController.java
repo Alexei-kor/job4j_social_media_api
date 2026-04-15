@@ -89,7 +89,7 @@ public class UserController {
                 .body(user);
     }
 
-    @PostMapping("/signin")
+    /*@PostMapping("/signin")
     public ResponseEntity<JwtResponseDTO> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getName(), loginRequestDTO.getPassword()));
@@ -108,7 +108,7 @@ public class UserController {
         RegisterDTO registerDTO = userServiceDB.signUp(signUpRequest);
         return ResponseEntity.status(registerDTO.getStatus())
                 .body(new MessageResponseDTO(registerDTO.getMessage()));
-    }
+    }*/
 
     @Operation(
             summary = "Update user",
