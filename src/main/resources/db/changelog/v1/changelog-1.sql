@@ -7,7 +7,7 @@ create table if not exists users
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     email VARCHAR(100),
-    password VARCHAR(30)
+    password text
 );
 
 create table if not exists posts
