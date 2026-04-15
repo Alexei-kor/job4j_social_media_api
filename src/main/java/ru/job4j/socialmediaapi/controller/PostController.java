@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,6 +29,7 @@ public class PostController {
     private PostServiceDB postServiceDB;
 
     @GetMapping("/{postId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Post> get(@PathVariable("postId")
                                     @NotNull
                                     @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -38,6 +40,7 @@ public class PostController {
     }
 
     @PostMapping("/{ownerId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Post> save(@PathVariable("ownerId")
                                          @NotNull
                                          @Min(value = 1, message = "номер ресурса должен быть 1 и более")
@@ -63,6 +66,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Void> removeById(@PathVariable long postId) {
         if (postServiceDB.delete(postId)) {
             return ResponseEntity.noContent().build();
@@ -71,6 +75,7 @@ public class PostController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<List<PostdDTO>> getPostsByUsersIDs(@RequestParam("listIDs")
                                                                  @NotNull
                                                                  @Size(min = 1, message = "Должен быть указан хотя бы один user ID")
